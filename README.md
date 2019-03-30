@@ -21,31 +21,8 @@ What this Script does is
    3. Add their SSH public key to their own authorized_keys so they can login as themselves.
 
 * When Launching the instance Add the Below Script in Advanced User Detail Section to automate the process
-`
- #!/bin/bash
- declare -A USERKEY
- USERKEY[tom]="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyFgGobmiU2H Tom's Public Key"
- USERKEY[Louis]="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyFgGobmiU2H Louis's Public Key"
- USERKEY[Jenelly]="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyFgGobmiU2H Jenally's Public Key"
- declare -A SUDOUSER
- SUDOUSER[tom]=y
- for user in "${!USERKEY[@]}" ; do
-  adduser --disabled-password --gecos "" $user
-   usermod -a -G adm $user
-
-    if [ "${SUDOUSER[$user]}" == 'y' ] ; then
-     usermod -a -G sudo $user
-      echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/90-cloud-init-users
-    fi
-
-   mkdir /home/$user/.ssh 	
-   echo "${USERKEY[$user]}" >> /home/$user/.ssh/authorized_keys
-   chown -R $user:$user /home/$user/.ssh
-   chmod -R go-rx /home/$user/.ssh
-  done `
-
-
-We can Automate this by creating an AMI based on the instance. All future launches can now use this custom AMI.
+* Script URL : https://github.com/hem4nth/AccesstoEc2/blob/master/User_Creation.sh
+* We can Automate this by creating an AMI based on the instance. All future launches can now use this custom AMI.
 
 
 ## Using Amazon directory servicce to Grant / Revoke Access to the AWS Resources.
